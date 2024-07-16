@@ -1,60 +1,79 @@
-
-
-document.addEventListener('DOMContentLoaded',(e) => {
-
-    e.preventDefault();
-    //Capturar informacion
+document.addEventListener('DOMContentLoaded', () => {
     const formRegistro = document.getElementById('formRegistro');
     const mostrarRegistro = document.getElementById('mostrarRegistro');
     let cards = [];
 
-
-    //cuando haga click
-
-    formRegistro.addEventListener('submit',(e) => {
+    formRegistro.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        //Obtener la tarea
         const tarea = document.getElementById('tarea').value;
         const fecha = document.getElementById('date').value;
-        //construir el objeto JSON
+
+        const Existe = cards.find(card => card.card === tarea && card.fecha === fecha);
+        if (Existe) {
+            alert('La tarea con la misma fecha ya existe. Por favor, ingresa otra tarea o fecha.');
+            return; 
+        }
 
         const ObjCards = {
             card: tarea,
             fecha: fecha
-        }
-
+        };
+        //Estoy agregando una tarea al array
         cards.push(ObjCards);
         
-        //console.log(cards);
-
+        //Estoy agregando mi arreglo al localstorage
         localStorage.setItem('formRegistro', JSON.stringify(cards));
-
-        let m = JSON.parse(localStorage.getItem('formRegistro'));
         
-         
-         mostrarRegistro.innerHTML = '';
-         m.forEach(element => {
-            
-             mostrarRegistro.innerHTML += `
-                 <div>
-                     <ul>
-                         <li>${element.card}</li>
-                         <li>${element.fecha}</li>
-                     </ul>
-                 </div>`;
-         });
-            
-        
-        // const card = document.createElement('div');
-        // card.classList.add('card');
-      
+        mostrarRegistro.innerHTML = '';
 
-        
-        // console.table(m);
+        //Recorro mi arreglo por cada elemento y le agrego elementos html
+        cards.forEach((element, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <ul>
+                    <li>Tarea: ${element.card}</li>
+                    <li>Fecha: ${element.fecha}</li>
+                </ul>
+                <button class="eliminar" data-index="${index}">Eliminar</button>
+            `;
+            mostrarRegistro.appendChild(card);
+        });
 
+        document.getElementById('tarea').value = '';
+        document.getElementById('date').value = '';
+    });
 
-});
+    // Función para cargar datos desde localStorage al cargar la página
+    const cargarL = () => {
+        const storedCards = JSON.parse(localStorage.getItem('formRegistro')) || [];
+        cards = storedCards; // Cargar datos guardados en cards
 
+        mostrarRegistro.innerHTML = '';
+        cards.forEach((element, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <ul>
+                    <li>Tarea: ${element.card}</li>
+                    <li>Fecha: ${element.fecha}</li>
+                </ul>
+                <button class="eliminar" data-index="${index}">Eliminar</button>
+            `;
+            mostrarRegistro.appendChild(card);
+        });
+    };
 
+    //Muestro y elimino
+    mostrarRegistro.addEventListener('click', (e) => {
+        if (e.target.classList.contains('eliminar')) {
+            const index = e.target.getAttribute('data-index');
+            cards.splice(index, 1); // Eliminar elemento del array
+            localStorage.setItem('formRegistro', JSON.stringify(cards)); // Actualizar localStorage
+            cargarL(); 
+        }
+    });
+
+    cargarDesdeLocalStorage();
 });
