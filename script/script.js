@@ -86,5 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //Cargar desde localStorage 
     cargarL();
 });

@@ -22,6 +22,7 @@ body {
 .vista img {
     max-width: 100%;
     height: auto;
+    border-radius: 30PX;
 }
 
 .vista-2 {
@@ -48,14 +49,14 @@ button {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #3169f8;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0442fe;
 }
 
 ul {
