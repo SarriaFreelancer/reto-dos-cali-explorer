@@ -58,6 +58,15 @@ button:hover {
     background-color: #45a049;
 }
 
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+    gap: 10px;
+    align-items:self-end;
+}
+
 .mostrarRegistro .card {
     background-color: #f9f9f9;
     padding: 10px;
