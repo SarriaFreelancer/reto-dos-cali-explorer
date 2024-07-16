@@ -9,13 +9,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const tarea = document.getElementById('tarea').value;
         const fecha = document.getElementById('date').value;
 
-        
+
 
         const Existe = cards.find(card => card.card === tarea && card.fecha === fecha);
+        
+
+        if (!tarea || !fecha) {
+            alert('La tarea no puede tener datos vacíos.');
+            return;
+        }
+        
         if (Existe) {
             alert('La tarea con la misma fecha ya existe. Por favor, ingresa otra tarea o fecha.');
             return; 
         } 
+
+         
 
         const ObjCards = {
             card: tarea,
